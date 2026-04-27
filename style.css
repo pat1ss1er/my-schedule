@@ -24,6 +24,32 @@
     --bg: #fff5f5; --paper: #ffffff; --ink: #440505; --muted: #a45c5c;
     --line: #ffdada; --accent: #d63031; --sky: #ff7675; --block: #fff0f0;
   }
+  /* 4. 라벤더 드림 (차분하고 우아한 보라색) */
+  [data-theme="lavender"] {
+    --bg: #f3f0ff; --paper: #ffffff; --ink: #2b244d; --muted: #7d74a8;
+    --line: #e5dbff; --accent: #845ef7; --sky: #b197fc; --block: #f8f7ff;
+  }
+  /* 5. 선셋 오렌지 (활기차고 따뜻한 노을빛) */
+  [data-theme="sunset"] {
+    --bg: #fff4e6; --paper: #ffffff; --ink: #49300a; --muted: #a67c52;
+    --line: #ffe8cc; --accent: #fd7e14; --sky: #ffad72; --block: #fff9f2;
+  }
+  /* 6. 포레스트 그린 (깊은 숲속의 편안함) */
+  [data-theme="forest"] {
+    --bg: #ebf2ed; --paper: #ffffff; --ink: #1a2e1f; --muted: #5a7d64;
+    --line: #d3e4d8; --accent: #2d6a4f; --sky: #74c365; --block: #f4f9f6;
+  }
+  /* 7. 오션 테마 (여름날 시원한 바다 느낌) */
+  [data-theme="ocean"] {
+    --bg: #e7f5ff; --paper: #ffffff; --ink: #002147; --muted: #547291;
+    --line: #d0ebff; --accent: #228be6; --sky: #74c0fc; --block: #f0f8ff;
+  }
+  /* 8. 로즈 가든 (부드럽고 로맨틱한 핑크) */
+  [data-theme="rose"] {
+    --bg: #fff0f6; --paper: #ffffff; --ink: #46142c; --muted: #a66482;
+    --line: #ffdeeb; --accent: #f06595; --sky: #ff87b2; --block: #fff9fb;
+  }
+
   /* 커스텀 얇은 스크롤바 */
   ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: var(--line); border-radius: 4px; }
