@@ -30,9 +30,9 @@
   ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
 
   * { box-sizing: border-box; }
-  body { font-family: 'Pretendard', sans-serif; margin: 0; background: var(--bg); color: var(--ink); height: 100vh; overflow-y: auto; overflow-x: hidden; }
+  body { font-family: 'Pretendard', sans-serif; margin: 0; background: var(--bg); color: var(--ink); min-height: 100vh; overflow-y: auto; overflow-x: hidden; }
   
-  .app { max-width: 560px; margin: 0 auto; padding: 14px 14px 100px; transition: 0.3s; }
+  .app { min-height: 100vh; background-color: var(--bg); max-width: 560px; margin: 0 auto; padding: 14px 14px 100px; transition: 0.3s; }
   .paper { background: var(--paper); border-radius: 14px; box-shadow: 0 8px 24px rgba(0,0,0,.06); position: relative; transition: 0.3s; overflow: hidden; }
   .paper-inner { padding: 20px; transition: 0.3s; }
   
@@ -155,4 +155,23 @@
     .paper-inner { padding: 15px 10px; }
     .palette, .icons { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; justify-items: center; margin-bottom: 8px; }
     .btn { font-size:12px; }
+    .modal-content {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        border-radius: 0 !important; /* 모서리 둥글기 제거 */
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .modal-body {
+        flex: 1; /* 내용이 많아지면 내부 스크롤 발생 */
+        overflow-y: auto;
+      }
+      
+      /* 하단바나 버튼이 잘리지 않게 조정 */
+      .modal-footer {
+        padding-bottom: 30px; 
+      }    
   }
