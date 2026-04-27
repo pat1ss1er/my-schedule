@@ -380,10 +380,13 @@ function openEdit(id = null) {
 function openDashboard() {
   const body = document.getElementById("dashboardBody"); body.innerHTML = "";
   const now = new Date(); const todayStr = ymd(now);
+  
+  // 1. 일간 데이터 계산
   const dailyItems = getSchedulesForDate(now);
   const dailyDone = dailyItems.filter(s => s.doneDates && s.doneDates.includes(todayStr)).length;
   const dailyPct = dailyItems.length ? Math.round((dailyDone / dailyItems.length) * 100) : 0;
   
+  // 2. 주간 데이터 계산
   let weeklyTotal = 0; let weeklyDone = 0;
   const startOfWeek = new Date(now); startOfWeek.setDate(now.getDate() - now.getDay());
   for(let i=0; i<7; i++) {
@@ -393,6 +396,16 @@ function openDashboard() {
   }
   const weeklyPct = weeklyTotal ? Math.round((weeklyDone / weeklyTotal) * 100) : 0;
 
+  // 3. 월간 데이터 계산 (이 부분이 추가되었습니다!)
+  let monthlyTotal = 0; let monthlyDone = 0;
+  const lastDate = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  for(let i=1; i<=lastDate; i++) {
+    const d = new Date(now.getFullYear(), now.getMonth(), i);
+    const dStr = ymd(d); const dItems = getSchedulesForDate(d);
+    monthlyTotal += dItems.length; monthlyDone += dItems.filter(s => s.doneDates && s.doneDates.includes(dStr)).length;
+  }
+  const monthlyPct = monthlyTotal ? Math.round((monthlyDone / monthlyTotal) * 100) : 0;
+
   const makeExpBar = (title, pct, done, total) => `
     <div class="dash-section">
       <div class="dash-title"><span>${title}</span> <span style="color:var(--accent)">${pct}% (${done}/${total})</span></div>
@@ -400,9 +413,20 @@ function openDashboard() {
       <div class="exp-text">${pct}% 달성 중</div></div>
     </div>
   `;
-  body.innerHTML = `<p style="font-size:13px; color:var(--muted); margin-top:0;">오늘 하루도 성장하고 있어요! 💪</p>${makeExpBar('오늘의 경험치', dailyPct, dailyDone, dailyItems.length)}${makeExpBar('이번 주 경험치', weeklyPct, weeklyDone, weeklyTotal)}`;
+
+  body.innerHTML = `
+    <p style="font-size:13px; color:var(--muted); margin-top:0;">오늘 하루도 성장하고 있어요! 💪</p>
+    ${makeExpBar('오늘의 경험치 (일간)', dailyPct, dailyDone, dailyItems.length)}
+    ${makeExpBar('이번 주 경험치 (주간)', weeklyPct, weeklyDone, weeklyTotal)}
+    ${makeExpBar('이번 달 경험치 (월간)', monthlyPct, monthlyDone, monthlyTotal)}
+  `;
+
   document.getElementById('dashboardModal').classList.add('show');
-  setTimeout(() => { body.querySelectorAll('.exp-fill').forEach(el => { el.style.width = el.getAttribute('data-target') + '%'; }); }, 50);
+  setTimeout(() => { 
+    body.querySelectorAll('.exp-fill').forEach(el => { 
+      el.style.width = el.getAttribute('data-target') + '%'; 
+    }); 
+  }, 50);
 }
 
 function startAlarmLoop() {
