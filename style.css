@@ -41,6 +41,7 @@
     .paper { border-radius: 0; box-shadow: none; min-height: 100vh; }
     .paper-inner { padding: 15px 10px; }
     .palette, .icons { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; justify-items: center; margin-bottom: 8px; }
+    .btn { font-size:12px; }
   }
   
   .dday-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
