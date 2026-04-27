@@ -454,3 +454,19 @@ function sendPush(title, body) {
 
 // 🚀 앱 실행
 window.addEventListener('DOMContentLoaded', init);
+
+// 3. 까만 배경(모달 바깥쪽) 클릭 시 모달 닫기
+window.onclick = function(event) {
+  // 클릭한 대상이 'modal' 클래스를 가진 배경일 경우
+  if (event.target.classList.contains('modal')) {
+    closeAllModals();
+  }
+}
+
+// 모든 모달을 닫는 공용 함수
+function closeAllModals() {
+  const modals = document.querySelectorAll('.modal');
+  modals.forEach(modal => {
+    modal.classList.remove('show');
+  });
+}
