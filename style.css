@@ -126,8 +126,12 @@
   .toggle-btn.active { background: var(--paper); color: var(--ink); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 
   .palette, .icons { display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; justify-items: center; margin-bottom: 8px; }
-  .days { display: flex; flex-wrap: wrap; gap: 8px; }
-  .chip { padding: 6px 12px; border: 1px solid var(--line); border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; }
+  .days {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: repeat(7, 1fr);
+  }
+  .chip { padding: 6px 12px; border: 1px solid var(--line); border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; text-align:center;}
   .chip.on { background: var(--accent); color: #fff; border-color: var(--accent); }
 
   /* 스와치 및 투명 버튼 */
