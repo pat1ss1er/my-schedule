@@ -12,7 +12,18 @@
     --bg: #121212; --paper: #242424; --ink: #e0e0e0; --muted: #9e9e9e;
     --line: #3a3a3a; --accent: #ff5252; --sky: #4FC3F7; --block: #2a2a2a;
   }
-
+  [data-theme="mint"] {
+    --bg: #e0f2f1; --paper: #ffffff; --ink: #004d40; --muted: #4e7d78;
+    --line: #b2dfdb; --accent: #26a69a; --sky: #80cbc4; --block: #f1f8f7;
+  }
+  [data-theme="midnight"] {
+    --bg: #0f172a; --paper: #1e293b; --ink: #f8fafc; --muted: #94a3b8;
+    --line: #334155; --accent: #38bdf8; --sky: #0ea5e9; --block: #1e293b;
+  }
+  [data-theme="fire"] {
+    --bg: #fff5f5; --paper: #ffffff; --ink: #440505; --muted: #a45c5c;
+    --line: #ffdada; --accent: #d63031; --sky: #ff7675; --block: #fff0f0;
+  }
   /* 커스텀 얇은 스크롤바 */
   ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: var(--line); border-radius: 4px; }
@@ -29,6 +40,7 @@
     .app { padding: 0 0 80px 0; max-width: 100%; }
     .paper { border-radius: 0; box-shadow: none; min-height: 100vh; }
     .paper-inner { padding: 15px 10px; }
+    .palette, .icons { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; justify-items: center; margin-bottom: 8px; }
   }
   
   .dday-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
