@@ -36,14 +36,6 @@
   .paper { background: var(--paper); border-radius: 14px; box-shadow: 0 8px 24px rgba(0,0,0,.06); position: relative; transition: 0.3s; overflow: hidden; }
   .paper-inner { padding: 20px; transition: 0.3s; }
   
-  @media (max-width: 991px) {
-    .app { padding: 0 0 80px 0; max-width: 100%; }
-    .paper { border-radius: 0; box-shadow: none; min-height: 100vh; }
-    .paper-inner { padding: 15px 10px; }
-    .palette, .icons { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; justify-items: center; margin-bottom: 8px; }
-    .btn { font-size:12px; }
-  }
-  
   .dday-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
   .dday-chip { background: var(--ink); color: var(--paper); padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 800; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
   .dday-chip .d-count { color: var(--accent); }
@@ -156,3 +148,11 @@
   .exp-bg { width: 100%; height: 16px; background: var(--line); border-radius: 10px; overflow: hidden; position: relative; }
   .exp-fill { height: 100%; background: var(--accent); transition: width 0.5s ease-out; }
   .exp-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+
+  @media (max-width: 991px) {
+    .app { padding: 0 0 80px 0; max-width: 100%; }
+    .paper { border-radius: 0; box-shadow: none; min-height: 100vh; }
+    .paper-inner { padding: 15px 10px; }
+    .palette, .icons { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; justify-items: center; margin-bottom: 8px; }
+    .btn { font-size:12px; }
+  }
