@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>My Schedule Pro Max</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+  <div class="paper">
+    <div class="paper-inner">
+      <h1 style="text-align: center; margin: 0 0 15px; color: var(--accent);">SCHEDULE MAX</h1>
+      <div id="ddayContainer" class="dday-container"></div>
+
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('daily')">일간</div>
+        <div class="tab" onclick="switchTab('weekly')">주간</div>
+        <div class="tab" onclick="switchTab('monthly')">월간</div>
+      </div>
+
+      <div id="view-daily" class="view-section active">
+        <div id="dateBar" class="date-bar"></div>
+        <div id="list" class="list"></div>
+      </div>
+
+      <div id="view-weekly" class="view-section">
+        <div style="text-align: center; font-weight: 800; margin-bottom: 15px; color: var(--ink);" id="weekTitle"></div>
+        <div class="week-list" id="weekList"></div>
+      </div>
+
+      <div id="view-monthly" class="view-section">
+        <div class="cal-header">
+          <button class="cal-btn" onclick="changeMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+          <span id="calMonthTitle"></span>
+          <button class="cal-btn" onclick="changeMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+        <div class="cal-grid" id="calGrid"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-bar">
+  <div class="bottom-inner">
+    <button class="btn secondary" style="flex: 0.5;" onclick="openSettings()"><i class="fa-solid fa-gear"></i></button>
+    <button class="btn secondary" onclick="openDashboard()"><i class="fa-solid fa-chart-simple"></i> 대시보드</button>
+    <button class="btn primary" onclick="openEdit()"><i class="fa-solid fa-plus"></i> 일정 추가</button>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="dashboardModal">
+  <div class="modal">
+    <div class="modal-head">
+      <span>나의 진행도 (경험치)</span>
+      <button class="icon-btn" onclick="closeModal('dashboardModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body" id="dashboardBody">
+      </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="settingModal">
+  <div class="modal">
+    <div class="modal-head">
+      <span>환경 설정 및 데이터</span>
+      <button class="icon-btn" onclick="closeModal('settingModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <div class="label">테마 설정</div>
+        <select id="themeSelect" onchange="changeTheme()">
+          <option value="default">노트 테마 (기본)</option>
+          <option value="postit">포스트잇 테마</option>
+          <option value="dark">다크 모드</option>
+        </select>
+      </div>
+      <hr style="border:0; border-top:1px solid var(--line); margin: 20px 0;">
+      <div class="field">
+        <div class="label">데이터 관리 (백업/복원)</div>
+        <div class="row">
+          <button class="btn secondary" style="width: 100%;" onclick="backupData()"><i class="fa-solid fa-download"></i> 내보내기</button>
+          <button class="btn secondary" style="width: 100%;" onclick="document.getElementById('restoreFile').click()"><i class="fa-solid fa-upload"></i> 불러오기</button>
+          <input type="file" id="restoreFile" accept="application/json" style="display:none;" onchange="restoreData(event)" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="editModal">
+  <div class="modal">
+    <div class="modal-head">
+      <span id="editTitle">일정 추가</span>
+      <button class="icon-btn" onclick="closeModal('editModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      
+      <div class="toggle-group">
+        <div class="toggle-btn active" id="typeSingle" onclick="setType('single')">하루만 (단일)</div>
+        <div class="toggle-btn" id="typeRepeat" onclick="setType('repeat')">반복 요일</div>
+      </div>
+
+      <div class="field">
+        <div class="label">내용</div>
+        <input type="text" id="fText" placeholder="예: 소방관계법규 1회독, 운동, 아르바이트" />
+      </div>
+      
+      <div class="row">
+        <div class="field">
+          <div class="label">카테고리</div>
+          <select id="fCat" onchange="toggleCustomCat()">
+            <option value="공부">공부</option>
+            <option value="업무">업무</option>
+            <option value="운동">운동</option>
+            <option value="약속">약속</option>
+            <option value="일상">일상</option>
+            <option value="custom">직접입력...</option>
+          </select>
+          <input type="text" id="fCatCustom" placeholder="카테고리명 입력" style="display:none; margin-top:8px;" />
+        </div>
+      </div>
+
+      <div class="field" id="wrapSingleDate">
+        <div class="label">날짜 지정</div>
+        <input type="date" id="fSingleDate" />
+      </div>
+
+      <div class="field" id="wrapRepeatDays" style="display:none;">
+        <div class="label">반복 요일</div>
+        <div class="days" id="fDays"></div>
+      </div>
+
+      <div class="row">
+        <div class="field"><div class="label">시작 시간</div><input type="time" id="fFrom" /></div>
+        <div class="field"><div class="label">종료 시간</div><input type="time" id="fTo" /></div>
+      </div>
+
+      <div class="row" id="wrapRepeatDates" style="display:none; margin-top:10px;">
+        <div class="field">
+          <div class="label">반복 시작일</div>
+          <input type="date" id="fStartDate">
+        </div>
+        <div class="field">
+          <div class="label">반복 종료일</div>
+          <input type="date" id="fEndDate">
+        </div>
+      </div>
+
+      <div class="field dday-box">
+        <label style="display:flex; align-items:center; gap:8px; font-weight:700; margin-bottom: 8px;">
+          <input type="checkbox" id="fIsDday" onchange="toggleDdayDate()" /> 이 일정을 메인 D-Day로 노출
+        </label>
+        <div id="wrapDdayTarget" style="display:none;">
+          <input type="date" id="fDdayTarget" style="margin-bottom: 10px;" />
+        </div>
+        <hr style="border:0; border-top:1px dashed var(--accent); margin: 10px 0;">
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <label style="display:flex; align-items:center; gap:8px; font-weight:700; color: var(--ink);">
+            <input type="checkbox" id="fNotify" /> <i class="fa-solid fa-bell" style="color:#f39c12;"></i> 시작 시간에 알림 받기
+          </label>
+          <label style="display:flex; align-items:center; gap:8px; font-weight:700; color: #e74c3c;">
+            <input type="checkbox" id="fNotifyEnd" /> <i class="fa-solid fa-clock-rotate-left"></i> 미완료시 종료 5분 전 리마인드 알림
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="label">배경 컬러</div>
+        <div class="palette" id="fPalette"></div>
+        <button class="btn secondary" style="width: 100%; font-size: 12px; padding: 10px; margin-top: 8px;" onclick="document.getElementById('customColorPicker').click()">
+          <i class="fa-solid fa-palette"></i> 내 마음대로 컬러 추가
+        </button>
+        <input type="color" id="customColorPicker" style="display:none;" onchange="addCustomColor(event)">
+      </div>
+      
+      <div class="field">
+        <div class="label">아이콘 선택</div>
+        <input type="file" id="iconUploader" accept="image/*" style="display:none;" onchange="uploadCustomIcon(event)">
+        <div class="icons" id="fIcons"></div>
+        
+        <div class="upload-btn-group" style="margin-top: 8px;">
+          <button class="btn secondary" style="font-size: 12px; padding: 10px;" onclick="document.getElementById('iconUploader').click()">
+            <i class="fa-solid fa-image"></i> 내 사진 업로드
+          </button>
+          <button class="btn secondary" style="font-size: 12px; padding: 10px;" onclick="openMoreIcons()">
+            <i class="fa-solid fa-icons"></i> 아이콘 더보기
+          </button>
+        </div>
+      </div>
+      
+      <button class="btn primary" style="width: 100%; margin-top: 10px;" onclick="saveItem()">일정 저장하기</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="moreIconsModal" style="z-index: 1000;">
+  <div class="modal" style="max-height: 80vh;">
+    <div class="modal-head">
+      <span>기본 아이콘 더보기</span>
+      <button class="icon-btn" onclick="closeModal('moreIconsModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="icons" id="extraIconsGrid" style="grid-template-columns: repeat(6, 1fr);"></div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
